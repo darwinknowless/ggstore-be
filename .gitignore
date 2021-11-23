@@ -1,4 +1,2 @@
-# dependencies
-node_modules/
-# secrets
+node_modules
 .env
