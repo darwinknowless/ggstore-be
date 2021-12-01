@@ -90,21 +90,21 @@ module.exports = {
 			res.redirect('/nominal');
 		}
 	},
-	// actionDelete: async (req, res) => {
-	// 	try {
-	// 		const { id } = req.params;
-	// 		const nominal = await Nominal.findOneAndRemove({ _id: id });
-	// 		// Success : with alert flash message
-	// 		req.flash('alertMessage', 'Success Delete Nominal');
-	// 		req.flash('alertStatus', 'success');
-	// 		// Redirect to nominal
-	// 		res.redirect('/nominal');
-	// 	} catch (err) {
-	// 		// Error : with alert flash message
-	// 		req.flash('alertMessage', `${err.message}`);
-	// 		req.flash('alertStatus', 'danger');
-	// 		// Redirect to nominal
-	// 		res.redirect('/nominal');
-	// 	}
-	// },
+	actionDelete: async (req, res) => {
+		try {
+			const { id } = req.params;
+			const nominal = await Nominal.findOneAndRemove({ _id: id });
+			// Success : with alert flash message
+			req.flash('alertMessage', 'Success Delete Nominal');
+			req.flash('alertStatus', 'success');
+			// Redirect to nominal
+			res.redirect('/nominal');
+		} catch (err) {
+			// Error : with alert flash message
+			req.flash('alertMessage', `${err.message}`);
+			req.flash('alertStatus', 'danger');
+			// Redirect to nominal
+			res.redirect('/nominal');
+		}
+	},
 };
