@@ -18,7 +18,7 @@ module.exports = {
 			req.flash('alertMessage', `${err.message}`);
 			req.flash('alertStatus', 'danger');
 			// Redirect to
-			res.redirect('/category');
+			res.redirect('/nominal');
 		}
 	},
 
@@ -30,7 +30,7 @@ module.exports = {
 			req.flash('alertMessage', `${err.message}`);
 			req.flash('alertStatus', 'danger');
 			// Redirect to
-			res.redirect('/category');
+			res.redirect('/nominal');
 		}
 	},
 
@@ -53,55 +53,58 @@ module.exports = {
 		}
 	},
 
-	// viewEdit: async (req, res) => {
-	// 	try {
-	// 		const { id } = req.params;
-	// 		const category = await Category.findOne({ _id: id });
-	// 		res.render('admin/category/edit', {
-	// 			category,
-	// 		});
-	// 	} catch (err) {
-	// 		// Error : with alert flash message
-	// 		req.flash('alertMessage', `${err.message}`);
-	// 		req.flash('alertStatus', 'danger');
-	// 		// Redirect to category
-	// 		res.redirect('/category');
-	// 	}
-	// },
+	viewEdit: async (req, res) => {
+		try {
+			const { id } = req.params;
+			const nominal = await Nominal.findOne({ _id: id });
+			res.render('admin/nominal/edit', {
+				nominal,
+			});
+		} catch (err) {
+			// Error : with alert flash message
+			req.flash('alertMessage', `${err.message}`);
+			req.flash('alertStatus', 'danger');
+			// Redirect to
+			res.redirect('/nominal');
+		}
+	},
 
-	// actionEdit: async (req, res) => {
-	// 	try {
-	// 		const { id } = req.params;
-	// 		const { name } = req.body;
-	// 		const category = await Category.findOneAndUpdate({ _id: id }, { name });
-	// 		// Success : with alert flash message
-	// 		req.flash('alertMessage', 'Success Edit Category');
-	// 		req.flash('alertStatus', 'success');
-	// 		// Redirect to category
-	// 		res.redirect('/category');
-	// 	} catch (err) {
-	// 		// Error : with alert flash message
-	// 		req.flash('alertMessage', `${err.message}`);
-	// 		req.flash('alertStatus', 'danger');
-	// 		// Redirect to category
-	// 		res.redirect('/category');
-	// 	}
-	// },
+	actionEdit: async (req, res) => {
+		try {
+			const { id } = req.params;
+			const { coinName, coinQuantity, price } = req.body;
+			const nominal = await Nominal.findOneAndUpdate(
+				{ _id: id },
+				{ coinName, coinQuantity, price }
+			);
+			// Success : with alert flash message
+			req.flash('alertMessage', 'Success Edit Nominal');
+			req.flash('alertStatus', 'success');
+			// Redirect to nominal
+			res.redirect('/nominal');
+		} catch (err) {
+			// Error : with alert flash message
+			req.flash('alertMessage', `${err.message}`);
+			req.flash('alertStatus', 'danger');
+			// Redirect to nominal
+			res.redirect('/nominal');
+		}
+	},
 	// actionDelete: async (req, res) => {
 	// 	try {
 	// 		const { id } = req.params;
-	// 		const category = await Category.findOneAndRemove({ _id: id });
+	// 		const nominal = await Nominal.findOneAndRemove({ _id: id });
 	// 		// Success : with alert flash message
-	// 		req.flash('alertMessage', 'Success Delete Category');
+	// 		req.flash('alertMessage', 'Success Delete Nominal');
 	// 		req.flash('alertStatus', 'success');
-	// 		// Redirect to category
-	// 		res.redirect('/category');
+	// 		// Redirect to nominal
+	// 		res.redirect('/nominal');
 	// 	} catch (err) {
 	// 		// Error : with alert flash message
 	// 		req.flash('alertMessage', `${err.message}`);
 	// 		req.flash('alertStatus', 'danger');
-	// 		// Redirect to category
-	// 		res.redirect('/category');
+	// 		// Redirect to nominal
+	// 		res.redirect('/nominal');
 	// 	}
 	// },
 };
