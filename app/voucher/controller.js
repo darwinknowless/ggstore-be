@@ -8,12 +8,17 @@ const config = require('../../config');
 module.exports = {
 	index: async (req, res) => {
 		try {
-			//===== Start for ===== : Alert
 			const alertMessage = req.flash('alertMessage');
 			const alertStatus = req.flash('alertStatus');
+
 			const alert = { message: alertMessage, status: alertStatus };
-			//===== End for ===== : Alert
-			const voucher = await Voucher.find();
+			const voucher = await Voucher.find()
+				.populate('category')
+				.populate('nominals');
+
+			// console.log('Voucher >>>>');
+			// console.log(voucher);
+
 			res.render('admin/voucher/view_voucher', {
 				voucher,
 				alert,
@@ -26,9 +31,9 @@ module.exports = {
 	},
 
 	viewCreate: async (req, res) => {
-		const category = await Category.find();
-		const nominal = await Nominal.find();
 		try {
+			const category = await Category.find();
+			const nominal = await Nominal.find();
 			res.render('admin/voucher/create', {
 				category,
 				nominal,
@@ -42,7 +47,7 @@ module.exports = {
 
 	actionCreate: async (req, res) => {
 		try {
-			const { name, category, nominal } = req.body;
+			const { name, category, nominals } = req.body;
 
 			if (req.file) {
 				let tmp_path = req.file.path;
@@ -66,7 +71,7 @@ module.exports = {
 						const voucher = new Voucher({
 							name,
 							category,
-							nominal,
+							nominals,
 							thumbnail: filename,
 						});
 
@@ -86,7 +91,7 @@ module.exports = {
 				const voucher = new Voucher({
 					name,
 					category,
-					nominal,
+					nominals,
 				});
 
 				await voucher.save();
