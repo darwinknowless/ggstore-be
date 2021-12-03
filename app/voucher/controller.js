@@ -203,40 +203,31 @@ module.exports = {
 				req.flash('alertStatus', 'success');
 				res.redirect('/voucher');
 			}
-
-			const voucher = await Voucher.findOneAndUpdate(
-				{ _id: id },
-				{ coinName, coinQuantity, price }
-			);
-			// Success : with alert flash message
-			req.flash('alertMessage', 'Success Edit Voucher');
-			req.flash('alertStatus', 'success');
-			// Redirect to voucher
-			res.redirect('/voucher');
 		} catch (err) {
-			// Error : with alert flash message
 			req.flash('alertMessage', `${err.message}`);
 			req.flash('alertStatus', 'danger');
-			// Redirect to voucher
 			res.redirect('/voucher');
 		}
 	},
 
-	// actionDelete: async (req, res) => {
-	// 	try {
-	// 		const { id } = req.params;
-	// 		const voucher = await Voucher.findOneAndRemove({ _id: id });
-	// 		// Success : with alert flash message
-	// 		req.flash('alertMessage', 'Success Delete Voucher');
-	// 		req.flash('alertStatus', 'success');
-	// 		// Redirect to voucher
-	// 		res.redirect('/voucher');
-	// 	} catch (err) {
-	// 		// Error : with alert flash message
-	// 		req.flash('alertMessage', `${err.message}`);
-	// 		req.flash('alertStatus', 'danger');
-	// 		// Redirect to voucher
-	// 		res.redirect('/voucher');
-	// 	}
-	// },
+	actionDelete: async (req, res) => {
+		try {
+			const { id } = req.params;
+			const voucher = await Voucher.findOneAndRemove({ _id: id });
+
+			// Delete Image
+			let currentImage = `${config.rootPath}/public/uploads/${voucher.thumbnail}`;
+			if (fs.existsSync(currentImage)) {
+				fs.unlinkSync(currentImage);
+			}
+
+			req.flash('alertMessage', 'Success Delete Voucher');
+			req.flash('alertStatus', 'success');
+			res.redirect('/voucher');
+		} catch (err) {
+			req.flash('alertMessage', `${err.message}`);
+			req.flash('alertStatus', 'danger');
+			res.redirect('/voucher');
+		}
+	},
 };
