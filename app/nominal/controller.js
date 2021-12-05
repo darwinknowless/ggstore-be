@@ -90,6 +90,7 @@ module.exports = {
 			res.redirect('/nominal');
 		}
 	},
+
 	actionDelete: async (req, res) => {
 		try {
 			const { id } = req.params;
