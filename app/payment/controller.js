@@ -9,7 +9,7 @@ module.exports = {
 			const alertStatus = req.flash('alertStatus');
 			const alert = { message: alertMessage, status: alertStatus };
 			//===== End for ===== : Alert
-			const payment = await Payment.find();
+			const payment = await Payment.find().populate('banks');
 			res.render('admin/payment/view_payment', {
 				payment,
 				alert,
@@ -26,10 +26,8 @@ module.exports = {
 			const banks = await Bank.find();
 			res.render('admin/payment/create', { banks });
 		} catch (err) {
-			// Error : with alert flash message
 			req.flash('alertMessage', `${err.message}`);
 			req.flash('alertStatus', 'danger');
-			// Redirect to
 			res.redirect('/payment');
 		}
 	},
@@ -39,16 +37,13 @@ module.exports = {
 			const { type, status, banks } = req.body;
 			const payment = new Payment({ type, status, banks });
 			await payment.save();
-			// Success : with alert flash message
+
 			req.flash('alertMessage', 'Success Add Payment');
 			req.flash('alertStatus', 'success');
-			// Redirect to
 			res.redirect('/payment');
 		} catch (err) {
-			// Error : with alert flash message
 			req.flash('alertMessage', `${err.message}`);
 			req.flash('alertStatus', 'danger');
-			// Redirect to
 			res.redirect('/payment');
 		}
 	},
