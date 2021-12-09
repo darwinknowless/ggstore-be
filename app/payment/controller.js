@@ -48,43 +48,41 @@ module.exports = {
 		}
 	},
 
-	// viewEdit: async (req, res) => {
-	// 	try {
-	// 		const { id } = req.params;
-	// 		const payment = await Payment.findOne({ _id: id });
-	// 		res.render('admin/payment/edit', {
-	// 			payment,
-	// 		});
-	// 	} catch (err) {
-	// 		// Error : with alert flash message
-	// 		req.flash('alertMessage', `${err.message}`);
-	// 		req.flash('alertStatus', 'danger');
-	// 		// Redirect to
-	// 		res.redirect('/payment');
-	// 	}
-	// },
+	viewEdit: async (req, res) => {
+		try {
+			const { id } = req.params;
+			const payment = await Payment.findOne({ _id: id }).populate('banks');
+			const banks = await Bank.find();
 
-	// actionEdit: async (req, res) => {
-	// 	try {
-	// 		const { id } = req.params;
-	// 		const { coinName, coinQuantity, price } = req.body;
-	// 		const payment = await Payment.findOneAndUpdate(
-	// 			{ _id: id },
-	// 			{ coinName, coinQuantity, price }
-	// 		);
-	// 		// Success : with alert flash message
-	// 		req.flash('alertMessage', 'Success Edit Payment');
-	// 		req.flash('alertStatus', 'success');
-	// 		// Redirect to payment
-	// 		res.redirect('/payment');
-	// 	} catch (err) {
-	// 		// Error : with alert flash message
-	// 		req.flash('alertMessage', `${err.message}`);
-	// 		req.flash('alertStatus', 'danger');
-	// 		// Redirect to payment
-	// 		res.redirect('/payment');
-	// 	}
-	// },
+			res.render('admin/payment/edit', {
+				payment,
+				banks,
+			});
+		} catch (err) {
+			req.flash('alertMessage', `${err.message}`);
+			req.flash('alertStatus', 'danger');
+			res.redirect('/payment');
+		}
+	},
+
+	actionEdit: async (req, res) => {
+		try {
+			const { id } = req.params;
+			const { banks, type } = req.body;
+			const payment = await Payment.findOneAndUpdate(
+				{ _id: id },
+				{ banks, type }
+			);
+
+			req.flash('alertMessage', 'Success Edit Payment');
+			req.flash('alertStatus', 'success');
+			res.redirect('/payment');
+		} catch (err) {
+			req.flash('alertMessage', `${err.message}`);
+			req.flash('alertStatus', 'danger');
+			res.redirect('/payment');
+		}
+	},
 
 	// actionDelete: async (req, res) => {
 	// 	try {
