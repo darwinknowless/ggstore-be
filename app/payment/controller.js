@@ -24,6 +24,7 @@ module.exports = {
 	viewCreate: async (req, res) => {
 		try {
 			const banks = await Bank.find();
+
 			res.render('admin/payment/create', { banks });
 		} catch (err) {
 			req.flash('alertMessage', `${err.message}`);
@@ -84,21 +85,18 @@ module.exports = {
 		}
 	},
 
-	// actionDelete: async (req, res) => {
-	// 	try {
-	// 		const { id } = req.params;
-	// 		const payment = await Payment.findOneAndRemove({ _id: id });
-	// 		// Success : with alert flash message
-	// 		req.flash('alertMessage', 'Success Delete Payment');
-	// 		req.flash('alertStatus', 'success');
-	// 		// Redirect to payment
-	// 		res.redirect('/payment');
-	// 	} catch (err) {
-	// 		// Error : with alert flash message
-	// 		req.flash('alertMessage', `${err.message}`);
-	// 		req.flash('alertStatus', 'danger');
-	// 		// Redirect to payment
-	// 		res.redirect('/payment');
-	// 	}
-	// },
+	actionDelete: async (req, res) => {
+		try {
+			const { id } = req.params;
+			const payment = await Payment.findOneAndRemove({ _id: id });
+
+			req.flash('alertMessage', 'Success Delete Payment');
+			req.flash('alertStatus', 'success');
+			res.redirect('/payment');
+		} catch (err) {
+			req.flash('alertMessage', `${err.message}`);
+			req.flash('alertStatus', 'danger');
+			res.redirect('/payment');
+		}
+	},
 };
