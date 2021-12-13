@@ -19,7 +19,7 @@
                     <%= voucher[i].name %>
                 </td>
                 <td>
-                    <%= voucher[i].category?.name ?? '-' %>
+                    <%= voucher[i]?.category?.name ?? '-' %>
                 </td>
                 <td>
                     <% voucher[i].nominals.forEach(nominal=>{ %>
