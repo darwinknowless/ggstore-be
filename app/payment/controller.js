@@ -13,6 +13,8 @@ module.exports = {
 			res.render('admin/payment/view_payment', {
 				payment,
 				alert,
+				name: req.session.user.name,
+				title: 'Payment Page',
 			});
 		} catch (err) {
 			req.flash('alertMessage', `${err.message}`);
@@ -25,7 +27,11 @@ module.exports = {
 		try {
 			const banks = await Bank.find();
 
-			res.render('admin/payment/create', { banks });
+			res.render('admin/payment/create', {
+				banks,
+				name: req.session.user.name,
+				title: 'Add Payment Page',
+			});
 		} catch (err) {
 			req.flash('alertMessage', `${err.message}`);
 			req.flash('alertStatus', 'danger');
@@ -58,6 +64,8 @@ module.exports = {
 			res.render('admin/payment/edit', {
 				payment,
 				banks,
+				name: req.session.user.name,
+				title: 'Edit Payment Page',
 			});
 		} catch (err) {
 			req.flash('alertMessage', `${err.message}`);
@@ -70,10 +78,7 @@ module.exports = {
 		try {
 			const { id } = req.params;
 			const { banks, type } = req.body;
-			const payment = await Payment.findOneAndUpdate(
-				{ _id: id },
-				{ banks, type }
-			);
+			await Payment.findOneAndUpdate({ _id: id }, { banks, type });
 
 			req.flash('alertMessage', 'Success Edit Payment');
 			req.flash('alertStatus', 'success');
@@ -88,7 +93,7 @@ module.exports = {
 	actionDelete: async (req, res) => {
 		try {
 			const { id } = req.params;
-			const payment = await Payment.findOneAndRemove({ _id: id });
+			await Payment.findOneAndRemove({ _id: id });
 
 			req.flash('alertMessage', 'Success Delete Payment');
 			req.flash('alertStatus', 'success');
