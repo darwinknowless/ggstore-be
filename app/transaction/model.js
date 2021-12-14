@@ -79,7 +79,7 @@ let transactionSchema = mongoose.Schema(
 		historyUser: {
 			name: { type: String, require: [true, 'Name player must be entered'] },
 			phoneNumber: {
-				type: Number,
+				type: String,
 				require: [true, 'Phone number must be entered'],
 				maxLength: [13, 'Phone number must be 9 - 13 digits'],
 				minLength: [9, 'Phone number must be 9 - 13 digits'],
