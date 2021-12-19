@@ -43,7 +43,7 @@ let playerSchema = mongoose.Schema(
 			type: String,
 		},
 		phoneNumber: {
-			type: Number,
+			type: String,
 			require: [true, 'Phone number must be entered'],
 			maxLength: [13, 'Phone number must be 9 - 13 digits'],
 			minLength: [9, 'Phone number must be 9 - 13 digits'],
