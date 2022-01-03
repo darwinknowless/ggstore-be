@@ -17,8 +17,8 @@ let playerSchema = mongoose.Schema(
 		username: {
 			type: String,
 			require: [true, 'Username must be entered'],
-			maxLength: [32, 'Username must be 7 - 32 characters'],
-			minLength: [7, 'Username must be 7 - 32 characters'],
+			maxLength: [32, 'Username must be 3 - 32 characters'],
+			minLength: [3, 'Username must be 3 - 32 characters'],
 		},
 		password: {
 			type: String,
