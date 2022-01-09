@@ -215,7 +215,7 @@ module.exports = {
 				.populate('category')
 				.sort({ updatedAt: -1 });
 
-			res.status(200).json({ data: history, count: count });
+			res.status(200).json({ count: count, data: history });
 		} catch (err) {
 			res.status(500).json({ message: err.message || 'Server Error' });
 		}
